@@ -1,0 +1,14 @@
+[
+  { "name": "Action" },
+  { "name": "Horror" },
+  { "name": "Comedy" },
+  { "name": "Romance" },
+  { "name": "Thriller" },
+  { "name": "Drama" },
+  { "name": "Sci-Fi" },
+  { "name": "Fantasy" },
+  { "name": "Mystery" },
+  { "name": "Adventure" },
+  { "name": "Crime" },
+  { "name": "Animation" }
+]
