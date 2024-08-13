@@ -66,33 +66,36 @@ genresRouter.get("/:id", async (req, res) => {
 });
 
 // Updating a genre
-genresRouter.put("/:id", (req, res) => {
-  const genre = genres.find((g) => g.id === parseInt(req.params.id));
-  if (!genre) {
-    res.status(404).send("The genre with the given ID was not found");
-    return;
+genresRouter.put("/:id", async (req, res) => {
+  try {
+    const genre = await Genre.findByIdAndUpdate(
+      req.params.id,
+      { name: req.body.name },
+      { new: true, runValidators: true }
+    );
+
+    if (!genre) {
+      res.send("The genre with the given ID was not found");
+      return;
+    }
+    res.send(genre);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
-  const schema = Joi.object({
-    genre: Joi.string().min(3).max(20).required()
-  });
-  const result = schema.validate(req.body);
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-    return;
-  }
-  genre.name = req.body.genre;
-  res.send(genre);
 });
 
-genresRouter.delete("/:id", (req, res) => {
-  const genre = genres.find((g) => g.id === parseInt(req.params.id));
-  if (!genre) {
-    res.status(404).send("The genre with the given ID was not found");
-    return;
+// Deleting a genre
+genresRouter.delete("/:id", async (req, res) => {
+  try {
+    const genre = await Genre.findByIdAndDelete(req.params.id);
+    if (!genre) {
+      res.send("The genre with the given ID was not found");
+      return;
+    }
+    res.send(genre);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
-  const index = genres.indexOf(genre);
-  genres.splice(index, 1);
-  res.send(genre);
 });
 
 module.exports = genresRouter;
