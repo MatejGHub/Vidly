@@ -66,7 +66,7 @@ async function createRental(customerId, movieId) {
   rental = await rental.save();
 
   movie.numberInStock--;
-  movie.save();
+  await movie.save();
 }
 
 rentalRouter.get("/", async (req, res) => {
