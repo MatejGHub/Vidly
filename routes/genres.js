@@ -7,7 +7,7 @@ const Joi = require("joi");
 mongoose
   .connect("mongodb://127.0.0.1:27017/Vidly")
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB genres");
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB", err);
@@ -15,7 +15,7 @@ mongoose
 
 // Creating a genre Schema
 const genreSchema = new mongoose.Schema({
-  name: String
+  name: { type: String }
 });
 
 // Creating a genre model
@@ -98,4 +98,4 @@ genresRouter.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = genresRouter;
+module.exports = { genresRouter, genreSchema, Genre };

@@ -1,0 +1,17 @@
+[
+  {
+    "isGold": false,
+    "name": "John Smith",
+    "phone": "123-456-7890"
+  },
+  {
+    "isGold": true,
+    "name": "Mary Williams",
+    "phone": "234-567-8901"
+  },
+  {
+    "isGold": false,
+    "name": "Alex Brown",
+    "phone": "345-678-9012"
+  }
+]
