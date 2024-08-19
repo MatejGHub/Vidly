@@ -1,7 +1,7 @@
 const express = require("express");
 const registerRouter = express.Router();
 const mongoose = require("mongoose");
-const Joi = require("joi");
+const bcrypt = require("bcrypt");
 
 // Connecting to MongoDB
 mongoose
@@ -31,7 +31,7 @@ const register = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxLength: 50
+    maxLength: 1024
   }
 });
 
@@ -39,6 +39,8 @@ const register = new mongoose.Schema({
 const Register = mongoose.model("Register", register);
 
 async function registerUser(name, email, password) {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
   try {
     const user = new Register({
       name: name,
@@ -47,7 +49,11 @@ async function registerUser(name, email, password) {
     });
 
     await user.save();
-    console.log(user);
+    console.log({
+      name: user.name,
+      email: user.email,
+      password: hashedPassword
+    });
   } catch (err) {
     console.log(err.message);
   }
@@ -56,15 +62,22 @@ async function registerUser(name, email, password) {
 // registerUser("Matthew Beem", "matthew.beem@gmail.com", "123123");
 
 registerRouter.post("/", async (req, res) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
   let registerUser = new Register({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: hashedPassword
   });
 
   try {
-    registerUser = await registerUser.save();
-    res.send(registerUser);
+    saveUser = await registerUser.save();
+    res.send({
+      name: saveUser.name,
+      email: saveUser.email,
+      password: hashedPassword
+    });
   } catch (err) {
     console.log(err.message);
   }
