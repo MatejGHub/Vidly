@@ -1,5 +1,11 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
+
+if (!process.env.jwtPrivateKey) {
+  console.log("FATAL ERROR: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 
 //Fetching ROUTES
 const home = require("./routes/home"); // Fetches the home route
