@@ -3,6 +3,8 @@ const registerRouter = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+let saveUser;
+
 // Connecting to MongoDB
 mongoose
   .connect("mongodb://127.0.0.1:27017/Vidly")
@@ -83,4 +85,4 @@ registerRouter.post("/", async (req, res) => {
   }
 });
 
-module.exports = { registerRouter };
+module.exports = { registerRouter, Register };
